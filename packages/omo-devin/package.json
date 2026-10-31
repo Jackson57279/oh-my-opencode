@@ -9,8 +9,5 @@
 		"sync:skills": "node plugin/scripts/sync-skills.mjs",
 		"test": "node --test plugin/test/*.test.mjs",
 		"check": "node plugin/scripts/build-plugin.mjs && node --test plugin/test/*.test.mjs"
-	},
-	"dependencies": {
-		"@oh-my-opencode/shared-skills": "workspace:*"
 	}
 }
