@@ -1,0 +1,27 @@
+{
+	"name": "omo",
+	"version": "5.1.54",
+	"description": "OMO agentic workflow for Devin CLI: the shared skill bundle (ultrawork, ulw-plan, ulw-execute, ulw-research, review-work, debugging, frontend, programming, and more), custom subagent profiles (oracle, librarian, momus, metis, prometheus, multimodal-looker, sisyphus-junior), workflow rules, lifecycle hooks, and MCP servers.",
+	"author": {
+		"name": "Yeongyu Kim",
+		"email": "yeongyu@users.noreply.github.com",
+		"url": "https://github.com/code-yeongyu"
+	},
+	"homepage": "https://github.com/code-yeongyu/oh-my-openagent",
+	"repository": "https://github.com/code-yeongyu/oh-my-openagent",
+	"license": "MIT",
+	"keywords": [
+		"devin",
+		"devin-plugin",
+		"omo",
+		"oh-my-openagent",
+		"oh-my-opencode",
+		"ultrawork",
+		"hooks",
+		"mcp",
+		"skills",
+		"agents"
+	],
+	"skills": "skills",
+	"mcpServers": "./.mcp.json"
+}

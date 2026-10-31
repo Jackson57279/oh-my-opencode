@@ -30,6 +30,8 @@ export function isProductSource(path: string): boolean {
     && !/(?:^|\/)testUtils\.[cm]?[jt]sx?$/.test(path)
     && !/^packages\/(?:lsp-daemon|lsp-tools-mcp)\//.test(path)
     && !/^packages\/omo-senpi\/plugin\/(?:extensions|runtime)\//.test(path)
+    // Generated copy of shared-skills (+ vendored staged runtimes): the source is scanned upstream.
+    && !/^packages\/omo-devin\/plugin\/skills\//.test(path)
     && !GENERATED_SOURCES.has(path)
 }
 

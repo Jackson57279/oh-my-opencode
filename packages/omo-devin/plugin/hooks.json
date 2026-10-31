@@ -1,0 +1,38 @@
+{
+	"SessionStart": [
+		{
+			"matcher": "",
+			"hooks": [
+				{
+					"type": "command",
+					"command": "node \"${PLUGIN_ROOT}/scripts/omo-hook.mjs\" session-start",
+					"timeout": 5
+				}
+			]
+		}
+	],
+	"UserPromptSubmit": [
+		{
+			"matcher": "",
+			"hooks": [
+				{
+					"type": "command",
+					"command": "node \"${PLUGIN_ROOT}/scripts/omo-hook.mjs\" user-prompt-submit",
+					"timeout": 5
+				}
+			]
+		}
+	],
+	"PostCompaction": [
+		{
+			"matcher": "",
+			"hooks": [
+				{
+					"type": "command",
+					"command": "node \"${PLUGIN_ROOT}/scripts/omo-hook.mjs\" post-compact",
+					"timeout": 5
+				}
+			]
+		}
+	]
+}

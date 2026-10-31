@@ -9,7 +9,7 @@
   // Remove an entry when its finding is fixed. Root-workspace file ignores live at the top level (knip reads the root
   // workspace's ignoreIssues only there).
   // Third-party projects vendored as git submodules; the build materializes them, they are not this repository's code.
-  "ignore": ["packages/shared-skills/upstreams/**"],
+  "ignore": ["packages/shared-skills/upstreams/**", "packages/omo-devin/plugin/skills/**"],
   // Unused exports already present at origin dev 4686e425b5, named per symbol. knip has no per-symbol ignore and a file-wide
   // ignoreIssues "exports" entry would also hide a new unused export in that file, so script/knip-preexisting-exports.ts
   // (shared byte for byte with omo-relay-daemon, sha256-pinned by script/knip-coverage.test.ts) drops exactly these names, and
@@ -2322,6 +2322,8 @@
         "@oh-my-opencode/mcp-stdio-core",
         // pre-existing at origin dev 4686e425b5: a declared devDependency nothing imports
         "@oh-my-opencode/omo-codex",
+        // declared for the package-registration audit; the plugin is consumed by devin, not imported
+        "@oh-my-opencode/omo-devin",
         // pre-existing at origin dev 4686e425b5: a declared devDependency nothing imports
         "@oh-my-opencode/omo-opencode",
         // pre-existing at origin dev 4686e425b5: a declared devDependency nothing imports
@@ -4128,6 +4130,21 @@
       "entry": [
         "{index,cli,main}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
         "src/{index,cli,main}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+        "**/*.{test,spec}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+        "**/*.test-d.ts",
+      ],
+    },
+    "packages/omo-devin/plugin": {
+      "includeEntryExports": true,
+      // knip's default entry patterns (an explicit "entry" replaces them), files run by path from package.json scripts or CI
+      // workflows, and the test, config and helper files plugins report with exports unchecked: listing them export-checks
+      // them too (script/knip-entry-exports.test.ts probes every knip entry and fails on one that is missing).
+      "entry": [
+        "{index,cli,main}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+        "src/{index,cli,main}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+        "scripts/build-plugin.mjs",
+        "scripts/sync-skills.mjs",
+        "scripts/omo-hook.mjs",
         "**/*.{test,spec}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
         "**/*.test-d.ts",
       ],

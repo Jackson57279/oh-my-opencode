@@ -31,6 +31,7 @@
     "packages/agents-md-core",
     "packages/shared-skills",
     "packages/omo-codex",
+    "packages/omo-devin",
     "packages/omo-senpi",
     "packages/senpi-task",
     "packages/senpi-desktop-protocol",
@@ -100,7 +101,11 @@
     "!packages/omo-codex/plugin/**/node_modules",
     "!packages/omo-codex/plugin/components/workflow-selector",
     "packages/omo-codex/scripts",
-    "!packages/omo-codex/scripts/install"
+    "!packages/omo-codex/scripts/install",
+    "packages/prompts-core/prompts/ultrawork/default.md",
+    "packages/omo-devin/plugin",
+    "!packages/omo-devin/plugin/node_modules",
+    "!packages/omo-devin/plugin/**/node_modules"
   ],
   "exports": {
     ".": {
@@ -117,6 +122,8 @@
     "build:codex-install": "bun run script/build-codex-install.ts",
     "install:codex-dev": "bun run script/build-codex-install.ts && bun run script/install-codex-dev.ts",
     "build:codex-plugin": "npm --prefix packages/omo-codex/plugin ci && bun run --cwd packages/omo-codex/plugin build",
+    "build:devin-plugin": "node packages/omo-devin/plugin/scripts/build-plugin.mjs",
+    "test:devin": "node packages/omo-devin/plugin/scripts/sync-skills.mjs --check && node --test packages/omo-devin/plugin/test/*.test.mjs",
     "build:senpi-plugin": "bun run build:lsp-daemon && bun run build:ast-grep-mcp && bun run build:senpi-plugin:stage",
     "build:senpi-plugin:native": "node packages/omo-senpi/plugin/scripts/stage-lsp-daemon-runtime.mjs && node packages/omo-senpi/plugin/scripts/stage-ast-grep-mcp-runtime.mjs && node packages/omo-senpi/plugin/scripts/stage-x-search-skill.mjs && node packages/omo-senpi/plugin/scripts/build-extension.mjs && node packages/omo-senpi/plugin/scripts/build-daemon-launch-spec.mjs && node packages/omo-senpi/plugin/scripts/sync-skills.mjs && node packages/omo-senpi/plugin/scripts/embed-directive.mjs --check && node packages/omo-senpi/plugin/scripts/build-install.mjs",
     "build:senpi-plugin:stage": "bun run build:materialize-frontend && node packages/omo-senpi/plugin/scripts/stage-lsp-daemon-runtime.mjs && node packages/omo-senpi/plugin/scripts/stage-ast-grep-mcp-runtime.mjs && node packages/omo-senpi/plugin/scripts/stage-x-search-skill.mjs && node packages/omo-senpi/plugin/scripts/build-extension.mjs && node packages/omo-senpi/plugin/scripts/build-daemon-launch-spec.mjs && node packages/omo-senpi/plugin/scripts/sync-skills.mjs && node packages/omo-senpi/plugin/scripts/embed-directive.mjs --check && node packages/omo-senpi/plugin/scripts/build-install.mjs",
@@ -203,6 +210,7 @@
     "@oh-my-opencode/memory-core": "workspace:*",
     "@oh-my-opencode/model-core": "workspace:*",
     "@oh-my-opencode/omo-codex": "workspace:*",
+    "@oh-my-opencode/omo-devin": "workspace:*",
     "@oh-my-opencode/omo-config-core": "workspace:*",
     "@oh-my-opencode/omo-opencode": "workspace:*",
     "@oh-my-opencode/omo-senpi": "workspace:*",

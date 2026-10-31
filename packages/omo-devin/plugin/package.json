@@ -1,0 +1,13 @@
+{
+	"name": "@oh-my-opencode/omo-devin-plugin",
+	"version": "5.1.54",
+	"private": true,
+	"type": "module",
+	"description": "Devin plugin bundle for OMO (skills, subagent profiles, rules, hooks, MCP servers).",
+	"scripts": {
+		"build": "node scripts/build-plugin.mjs",
+		"sync:skills": "node scripts/sync-skills.mjs",
+		"test": "node --test test/*.test.mjs",
+		"check": "node scripts/build-plugin.mjs && node --test test/*.test.mjs"
+	}
+}
