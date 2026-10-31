@@ -210,6 +210,7 @@
     "@oh-my-opencode/memory-core": "workspace:*",
     "@oh-my-opencode/model-core": "workspace:*",
     "@oh-my-opencode/omo-codex": "workspace:*",
+    "@oh-my-opencode/omo-devin": "workspace:*",
     "@oh-my-opencode/omo-config-core": "workspace:*",
     "@oh-my-opencode/omo-opencode": "workspace:*",
     "@oh-my-opencode/omo-senpi": "workspace:*",
