@@ -8,6 +8,7 @@
 //   node scripts/sync-skills.mjs --check  # assert the committed tree is fresh
 
 import { cp, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -163,7 +164,37 @@ async function collectFiles(root) {
 	return out;
 }
 
+function materializeUpstreams() {
+	// The frontend skill's third-party references and the browser runtime are
+	// gitignored in shared-skills and materialized from pinned submodules by
+	// this chokepoint (it self-initializes submodules, non-strict by default).
+	// --check must reproduce the same source state as the committed tree.
+	const script = join(repoRoot, "packages", "omo-codex", "plugin", "scripts", "materialize-shared-upstreams.mjs");
+	const result = spawnSync(process.execPath, [script], { stdio: "inherit" });
+	if (result.status !== 0) {
+		console.warn("warning: materialize-shared-upstreams skipped/failed (offline checkout?); comparing against source as-is");
+	}
+}
+
+// The omowright staging manifest embeds a `stagedAtUtc` timestamp — compare
+// everything except that volatile field.
+function sameContent(rel, generated, committed) {
+	if (generated === committed) return true;
+	if (rel !== "browser/runtime/omowright/manifest.json") return false;
+	try {
+		const strip = (json) => {
+			const parsed = JSON.parse(json);
+			delete parsed.stagedAtUtc;
+			return JSON.stringify(parsed);
+		};
+		return strip(generated) === strip(committed);
+	} catch {
+		return false;
+	}
+}
+
 async function check() {
+	materializeUpstreams();
 	const staged = await mkdtemp(join(tmpdir(), "omo-devin-skills-"));
 	try {
 		await sync(staged);
@@ -172,7 +203,7 @@ async function check() {
 		const problems = [];
 		for (const [rel, text] of expected) {
 			if (!actual.has(rel)) problems.push(`missing: ${rel}`);
-			else if (actual.get(rel) !== text) problems.push(`stale: ${rel}`);
+			else if (!sameContent(rel, text, actual.get(rel))) problems.push(`stale: ${rel}`);
 		}
 		for (const rel of actual.keys()) {
 			if (!expected.has(rel)) problems.push(`stray: ${rel}`);
@@ -191,6 +222,7 @@ async function check() {
 if (checkMode) {
 	await check();
 } else {
+	materializeUpstreams();
 	const skillsRoot = join(pluginRoot, "skills");
 	await rm(skillsRoot, { recursive: true, force: true });
 	await mkdir(skillsRoot, { recursive: true });
